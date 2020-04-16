@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.system.StudentMapper">
+	<resultMap id="DataBase" type="com.model.system.Student">
+		<id column="id" property="id"/>
+		<result column="class_id" property="classId"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+		<result column="gender" property="gender"/>
+	</resultMap>
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id, class_id,name,age,gender
+	</sql>
+<!--	<select id="selectMyPage" resultType="com.model.system.Student">-->
+<!--		SELECT-->
+<!--		s.`name`,-->
+<!--		s.age,-->
+<!--		s.gender,-->
+<!--		s.id,-->
+<!--		s.class_id,-->
+<!--		c.class_name-->
+<!--		FROM-->
+<!--		t_student s, t_class c-->
+<!--		where-->
+<!--		c.id = s.class_id-->
+<!--	</select>-->
+    <select id="selectStuList" resultType="com.model.system.Student">
+		SELECT
+		*
+		FROM
+		t_student
+		WHERE
+		state = #{state}
+	</select>
+	<select id="selectMyPage" resultType="com.model.system.Student" >
+		SELECT
+			s.`name`,
+			s.`age`,
+			s.`gender`,
+			s.`id`,
+			s.`class_id` AS classId,
+			c.`class_name` AS className
+		FROM
+			t_student s
+		LEFT JOIN t_class c ON c.`id` = s.`class_id`
+		<where>
+			<if test="s != null and s != '' ">
+				 s.`name` like concat ("%",#{s},"%")
+			</if>
+			<if test="c != null and c != '' ">
+				 and c.`class_name` like concat ("%",#{c},"%")
+			</if>
+		</where>
+
+
+		</select>
+
+</mapper>
