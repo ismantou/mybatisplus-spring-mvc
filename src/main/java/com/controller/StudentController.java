@@ -35,7 +35,7 @@ public class StudentController {
             return new Result(list.getRecords());
         }
     }
-
+    //查询学生
     @GetMapping("Students")
     public Result<Object> getStudents(@RequestParam(required = false,defaultValue = "1")String page,
                                       @RequestParam(required = false,defaultValue = "3 ")String size,
